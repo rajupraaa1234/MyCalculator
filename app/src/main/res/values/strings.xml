@@ -4,4 +4,6 @@
     <string name="login">Login</string>
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
+    <string name="clear">Clear</string>
+    <string name="back">Back</string>
 </resources>
