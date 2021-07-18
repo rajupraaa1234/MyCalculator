@@ -1,17 +1,29 @@
 package com.example.calculator
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var resText: TextView
+    lateinit var info: TextView
+
+    private var prev: Char = '\u0000'
+    lateinit var result: TextView
+    private val ADDITION = '+'
+    private val SUBTRACTION = '-'
+    private val MULTIPLICATION = '*'
+    private val DIVISION = '/'
+    private val EQU = 0.toChar()
+    private var val1 = Double.NaN
+    private var val2 = 0.0
+    private var ACTION = 0.toChar()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        resText = findViewById(R.id.res)
+        info = findViewById(R.id.res)
+        result = findViewById(R.id.result)
     }
 
     fun HomeClcikHndler(view: View){
@@ -38,18 +50,28 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun pressEqual() {
-        Toast.makeText(this,"=", Toast.LENGTH_SHORT).show()
+        if(info.text.length==0){
+            return
+        }
+        if(checkPrev('=') || checkInitialPoint()==true){
+            return
+        }else{
+            prev = '='
+        }
+        compute()
+        ACTION = EQU
+        result.text = result.text.toString() + val2.toString() + "=" + val1.toString()
+        info.text = val1.toString()
     }
 
     private fun pressPoint() {
         if(!checkBeforePoint()) {
-            resText.setText(resText.text.toString() + ".")
+            info.setText(info.text.toString() + ".")
         }
-        //Toast.makeText(this,".", Toast.LENGTH_SHORT).show()
     }
 
     private fun checkBeforePoint(): Boolean {
-        var str = resText.text.toString()
+        var str = info.text.toString()
         for(i in str){
             if(i=='.'){
                 return true
@@ -59,80 +81,155 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun backMehod() {
-        if(resText.text.toString().length>0)
-            resText.setText(resText.text.toString().subSequence(0,resText.text.length-1))
-        //Toast.makeText(this,"back", Toast.LENGTH_SHORT).show()
+        if(info.text.toString().length>0)
+            info.setText(info.text.toString().subSequence(0,info.text.length-1))
     }
 
     private fun clearMethod() {
-        resText.setText("")
-       // Toast.makeText(this,"clear", Toast.LENGTH_SHORT).show()
+            val1 = Double.NaN
+            val2 = Double.NaN
+            info.text = null
+            result.text = null
+            prev ='\u0000'
     }
 
     private fun pressNine() {
-        resText.setText(resText.text.toString() + "9")
-        //Toast.makeText(this,"9", Toast.LENGTH_SHORT).show()
+        prev = '9'
+        info.setText(info.text.toString() + "9")
     }
 
     private fun pressEight() {
-        resText.setText(resText.text.toString() + "8")
-        //Toast.makeText(this,"8", Toast.LENGTH_SHORT).show()
+        prev = '8'
+        info.setText(info.text.toString() + "8")
     }
 
     private fun pressSeven() {
-        resText.setText(resText.text.toString() + "7")
-        //Toast.makeText(this,"7", Toast.LENGTH_SHORT).show()
+        prev = '7'
+        info.setText(info.text.toString() + "7")
     }
 
     private fun pressSix() {
-        resText.setText(resText.text.toString() + "6")
-        //Toast.makeText(this,"6", Toast.LENGTH_SHORT).show()
+        prev = '6'
+        info.setText(info.text.toString() + "6")
     }
 
     private fun pressFive() {
-        resText.setText(resText.text.toString() + "5")
-        //Toast.makeText(this,"5", Toast.LENGTH_SHORT).show()
+        prev = '5'
+        info.setText(info.text.toString() + "5")
     }
 
     private fun pressFour() {
-        resText.setText(resText.text.toString() + "4")
-        //Toast.makeText(this,"4", Toast.LENGTH_SHORT).show()
+        prev = '4'
+        info.setText(info.text.toString() + "4")
     }
 
     private fun pressThree() {
-        resText.setText(resText.text.toString() + "3")
-        //Toast.makeText(this,"3", Toast.LENGTH_SHORT).show()
+        prev = '3'
+        info.setText(info.text.toString() + "3")
     }
 
     private fun pressTwo() {
-        resText.setText(resText.text.toString() + "2")
-        //Toast.makeText(this,"2", Toast.LENGTH_SHORT).show()
+        prev = '2'
+        info.setText(info.text.toString() + "2")
     }
 
     private fun pressOne() {
-        resText.setText(resText.text.toString() + "1")
-        //Toast.makeText(this,"1", Toast.LENGTH_SHORT).show()
+        prev = '1'
+        info.setText(info.text.toString() + "1")
     }
 
     private fun pressZero() {
-        resText.setText(resText.text.toString() + "0")
-        //Toast.makeText(this,"0", Toast.LENGTH_SHORT).show()
+        prev = '0'
+        info.setText(info.text.toString() + "0")
     }
 
     private fun divideMethod() {
-
-        Toast.makeText(this,"divide", Toast.LENGTH_SHORT).show()
+        if(info.text.length==0){
+            return
+        }
+        if(checkPrev('/') || checkInitialPoint() == true){
+            return
+        }else{
+            prev = '/'
+        }
+        compute()
+        ACTION = DIVISION
+        result.text = "$val1/"
+        info.text = null
     }
 
     private fun mulMethod() {
-        Toast.makeText(this,"mul", Toast.LENGTH_SHORT).show()
+        if(info.text.length==0){
+            return
+        }
+        if(checkPrev('*') || checkInitialPoint() == true){
+            return
+        }else{
+            prev = '*'
+        }
+        compute()
+        ACTION = MULTIPLICATION
+        result.text = "$val1*"
+        info.text = null
     }
 
     private fun subMethod() {
-        Toast.makeText(this,"sub", Toast.LENGTH_SHORT).show()
+        if(info.text.length==0){
+            return
+        }
+        if(checkPrev('-') ||checkInitialPoint() == true){
+            return
+        }else{
+            prev = '-'
+        }
+        compute()
+        ACTION = SUBTRACTION
+        result.text = "$val1-"
+        info.text = null
     }
 
     private fun addMethod() {
-        Toast.makeText(this,"add", Toast.LENGTH_SHORT).show()
+        if(info.text.length==0){
+            return
+        }
+        if(checkPrev('+') || checkInitialPoint() == true){
+            return
+        }else{
+            prev = '+'
+        }
+        compute()
+        ACTION = ADDITION
+        result.text = "$val1+"
+        info.text = null
     }
+
+    private fun compute() {
+        if (!java.lang.Double.isNaN(val1)) {
+            val2 = info.getText().toString().toDouble()
+            when (ACTION) {
+                ADDITION -> val1 = val1 + val2
+                SUBTRACTION -> val1 = val1 - val2
+                MULTIPLICATION -> val1 = val1 * val2
+                DIVISION -> val1 = val1 / val2
+                EQU -> {
+                }
+            }
+        } else {
+            val1 = info.getText().toString().toDouble()
+        }
+    }
+    private fun checkPrev(ch: Char): Boolean{
+        if(ch== this.prev || prev=='+' || prev == '-' || prev == '*' || prev =='/' ) {
+            return true
+        }
+        return false
+    }
+
+    private fun checkInitialPoint(): Boolean? {
+        return if (info.text.toString().length == 1 && info.text.toString()[0] == '.') {
+            true
+        } else false
+    }
+
+
 }
