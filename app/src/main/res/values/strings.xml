@@ -6,4 +6,8 @@
     <string name="enter_password">Enter Password</string>
     <string name="clear">Clear</string>
     <string name="back">Back</string>
+    <string name="please_enter_username">Please enter user name</string>
+    <string name="please_enter_pass">please enter password</string>
+    <string name="please_enter_correct_usernam">Please enter correct username</string>
+    <string name="please_enter_correct_pass">Please enter correct password</string>
 </resources>

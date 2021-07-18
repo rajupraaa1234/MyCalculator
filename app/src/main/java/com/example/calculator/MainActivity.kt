@@ -33,17 +33,17 @@ class MainActivity : AppCompatActivity() {
         var upass = password.text.toString()
         if(uname.length==0 || upass.length==0){
             if(uname.length==0){
-                Toast.makeText(this,"Please enter user name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,getString(R.string.please_enter_username), Toast.LENGTH_SHORT).show()
                 return;
             }else{
-                Toast.makeText(this,"please enter password",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,getString(R.string.please_enter_pass),Toast.LENGTH_SHORT).show()
                 return;
             }
         }
         else if(uname!="student"){
-            Toast.makeText(this,"Please enter correct username", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.please_enter_correct_usernam), Toast.LENGTH_SHORT).show()
         }else if(upass!="mtap"){
-            Toast.makeText(this,"Please enter correct password", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.please_enter_correct_pass), Toast.LENGTH_SHORT).show()
         }else{
             goHomeScreen()
         }
