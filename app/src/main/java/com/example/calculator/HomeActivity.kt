@@ -1,9 +1,15 @@
 package com.example.calculator
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
 
 class HomeActivity : AppCompatActivity() {
     lateinit var info: TextView
@@ -17,6 +23,7 @@ class HomeActivity : AppCompatActivity() {
     private val EQU = 0.toChar()
     private var val1 = Double.NaN
     private var val2 = 0.0
+    var doubleBackToExitPressedOnce = false
     private var ACTION = 0.toChar()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -231,5 +238,44 @@ class HomeActivity : AppCompatActivity() {
         } else false
     }
 
+
+
+    override fun onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//
+//            super.onBackPressed()
+//            return
+//        }
+//        doubleBackToExitPressedOnce = true
+//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+//        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+//            doubleBackToExitPressedOnce = false
+//        }, 2000)
+        openDialog()
+    }
+
+    private fun openDialog(){
+        val alertDialog: AlertDialog? = this?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setPositiveButton("Yes",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        super.onBackPressed()
+                    })
+                setNegativeButton("No",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+                    })
+            }
+            builder.setMessage("Do you want to cancel?")
+            builder.create()
+        }
+
+        with(alertDialog) {
+
+            this?.show()
+        }
+
+    }
 
 }
