@@ -7,22 +7,28 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Visibility
+import com.example.myloginapp.interfacePackage.OnClickListner
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 
 
-class DashBoard : AppCompatActivity(){
+class DashBoard : AppCompatActivity(),OnClickListner{
 
     lateinit var toolbar :Toolbar
     lateinit var toggle : ImageView
     lateinit var drawer_layout : DrawerLayout
     lateinit var navigationView : NavigationView
+    lateinit var hisLin :RelativeLayout
+    lateinit var calLin :LinearLayout
+    lateinit var tabTitle : TextView
 
     lateinit var info: TextView
 
@@ -38,6 +44,16 @@ class DashBoard : AppCompatActivity(){
     var doubleBackToExitPressedOnce = false
     private var ACTION = 0.toChar()
 
+    lateinit var adapter: CalculatorAdapter
+
+    lateinit var recyclerView: RecyclerView
+    lateinit var send : Button
+    lateinit var msg : EditText
+    lateinit var nodata : TextView
+
+
+    var arr :ArrayList<String> = ArrayList<String>();
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dash_board)
@@ -50,6 +66,17 @@ class DashBoard : AppCompatActivity(){
         toggle = findViewById(R.id.toggle)
         drawer_layout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigationView)
+        calLin = findViewById(R.id.calLin)
+        hisLin = findViewById(R.id.HisLin)
+        tabTitle = findViewById(R.id.tabTitle)
+        recyclerView =  findViewById(R.id.recycle)
+        nodata = findViewById(R.id.nodata)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = CalculatorAdapter(this,arr)
+        recyclerView.adapter = adapter
+
+
         //Start set up
         setSupportActionBar(toolbar)
         toggle.setOnClickListener(View.OnClickListener {
@@ -61,11 +88,23 @@ class DashBoard : AppCompatActivity(){
                 R.id.mynav_home -> {
                     //Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
                     drawer_layout.closeDrawer(GravityCompat.START)
+                    calLin.visibility = View.VISIBLE
+                    hisLin.visibility = View.GONE
+                    tabTitle.setText("Calculator")
                     true
                 }
                 R.id.myhistory -> {
-                    Toast.makeText(this, "History", Toast.LENGTH_SHORT).show()
                     drawer_layout.closeDrawer(GravityCompat.START)
+                    calLin.visibility = View.GONE
+                    hisLin.visibility = View.VISIBLE
+                    tabTitle.setText("Calculator History")
+                    if(arr.size==0){
+                        recyclerView.visibility=View.GONE
+                        nodata.visibility = View.VISIBLE
+                    }else{
+                        recyclerView.visibility=View.VISIBLE
+                        nodata.visibility = View.GONE
+                    }
                     true
                 }
                 else -> false
@@ -85,12 +124,16 @@ class DashBoard : AppCompatActivity(){
         }
     }
 
+
+    fun setRecyclerData(){
+
+    }
+
     override fun onBackPressed() {
-        openDialog()
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            openDialog()
         }
     }
 
@@ -129,6 +172,8 @@ class DashBoard : AppCompatActivity(){
         }
         compute()
         ACTION = EQU
+        arr.add(result.text.toString() + val2.toString() + "=" + val1.toString())
+        adapter.notifyDataSetChanged()
         result.text = result.text.toString() + val2.toString() + "=" + val1.toString()
         info.text = val1.toString()
     }
@@ -324,6 +369,10 @@ class DashBoard : AppCompatActivity(){
 
             this?.show()
         }
+
+    }
+
+    override fun onItemClick(i: Int) {
 
     }
 }

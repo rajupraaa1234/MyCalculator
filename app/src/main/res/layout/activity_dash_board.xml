@@ -23,6 +23,7 @@
                    android:src="@drawable/ic_baseline_drag_handle_24"
                    android:layout_height="wrap_content"/>
                <TextView
+                   android:id="@+id/tabTitle"
                    android:layout_width="wrap_content"
                    android:text="Calculator"
                    android:textColor="@color/white"
@@ -34,6 +35,7 @@
 
 
      <LinearLayout
+         android:id="@+id/calLin"
          android:layout_below="@+id/toolbar"
          android:layout_width="match_parent"
          android:orientation="vertical"
@@ -400,6 +402,32 @@
          </LinearLayout>
 
      </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/HisLin"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle"
+                android:layout_width="match_parent"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/nodata"
+                android:layout_width="wrap_content"
+                android:text="No Data Available "
+                android:textSize="@dimen/sp30"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"/>
+
+
+        </RelativeLayout>
 
     </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
