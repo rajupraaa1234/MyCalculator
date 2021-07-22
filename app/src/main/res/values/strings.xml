@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Calculator</string>
+    <string name="app_name">""</string>
     <string name="calculator">Calculator</string>
     <string name="login">Login</string>
     <string name="enter_username">Enter Username</string>
@@ -10,4 +10,16 @@
     <string name="please_enter_pass">please enter password</string>
     <string name="please_enter_correct_usernam">Please enter correct username</string>
     <string name="please_enter_correct_pass">Please enter correct password</string>
+    <string name="title_activity_dash_borad">DashBorad</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="history">History</string>
 </resources>

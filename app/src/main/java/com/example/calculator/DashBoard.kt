@@ -2,16 +2,28 @@ package com.example.calculator
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 
 
-class HomeActivity : AppCompatActivity() {
+class DashBoard : AppCompatActivity(){
+
+    lateinit var toolbar :Toolbar
+    lateinit var toggle : ImageView
+    lateinit var drawer_layout : DrawerLayout
+    lateinit var navigationView : NavigationView
+
     lateinit var info: TextView
 
     private var prev: Char = '\u0000'
@@ -26,12 +38,62 @@ class HomeActivity : AppCompatActivity() {
     var doubleBackToExitPressedOnce = false
     private var ACTION = 0.toChar()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_dash_board)
+
+
+        //init
         info = findViewById(R.id.res)
         result = findViewById(R.id.result)
+        toolbar = findViewById(R.id.toolbar) as Toolbar
+        toggle = findViewById(R.id.toggle)
+        drawer_layout = findViewById(R.id.drawer_layout)
+        navigationView = findViewById(R.id.navigationView)
+        //Start set up
+        setSupportActionBar(toolbar)
+        toggle.setOnClickListener(View.OnClickListener {
+            NavigationClickHandler()
+        })
+
+        navigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.mynav_home -> {
+                    //Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                R.id.myhistory -> {
+                    Toast.makeText(this, "History", Toast.LENGTH_SHORT).show()
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                else -> false
+            }
+
+        }
+
     }
+
+
+
+    fun NavigationClickHandler(){
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            drawer_layout.openDrawer(GravityCompat.START)
+        }
+    }
+
+    override fun onBackPressed() {
+        openDialog()
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
 
     fun HomeClcikHndler(view: View){
         when(view.id){
@@ -93,11 +155,11 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun clearMethod() {
-            val1 = Double.NaN
-            val2 = Double.NaN
-            info.text = null
-            result.text = null
-            prev ='\u0000'
+        val1 = Double.NaN
+        val2 = Double.NaN
+        info.text = null
+        result.text = null
+        prev ='\u0000'
     }
 
     private fun pressNine() {
@@ -240,19 +302,6 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-    override fun onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-//
-//            super.onBackPressed()
-//            return
-//        }
-//        doubleBackToExitPressedOnce = true
-//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
-//        Handler(Looper.getMainLooper()).postDelayed(Runnable {
-//            doubleBackToExitPressedOnce = false
-//        }, 2000)
-        openDialog()
-    }
 
     private fun openDialog(){
         val alertDialog: AlertDialog? = this?.let {
@@ -277,5 +326,4 @@ class HomeActivity : AppCompatActivity() {
         }
 
     }
-
 }

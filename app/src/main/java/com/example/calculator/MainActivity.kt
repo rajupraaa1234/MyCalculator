@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun goHomeScreen() {
          var HomeIntent : Intent
-         HomeIntent = Intent(this,HomeActivity::class.java)
+         HomeIntent = Intent(this,DashBoard::class.java)
          startActivity(HomeIntent)
     }
 }
