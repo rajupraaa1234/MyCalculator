@@ -55,7 +55,7 @@ class DashBoard : AppCompatActivity(),OnClickListner{
     lateinit var mdatabase : StudentViewModel
 
 
-    var arr :ArrayList<String> = ArrayList<String>();
+    var arr :ArrayList<Student> = ArrayList<Student>();
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -133,7 +133,7 @@ class DashBoard : AppCompatActivity(),OnClickListner{
         var arrayList = ArrayList<Student>()
         arrayList = mdatabase.allData as ArrayList<Student>
         for(i in arrayList){
-            arr.add(i.Uname)
+            arr.add(i)
         }
     }
 
@@ -203,7 +203,8 @@ class DashBoard : AppCompatActivity(),OnClickListner{
         var obj : Student = Student()
         obj.Uname= s
         mdatabase.insertStudentData(obj)
-        arr.add(result.text.toString() + val2.toString() + "=" + val1.toString())
+        arr.add(obj)
+        //arr.add(result.text.toString() + val2.toString() + "=" + val1.toString())
         adapter.notifyDataSetChanged()
     }
 
@@ -403,5 +404,11 @@ class DashBoard : AppCompatActivity(),OnClickListner{
 
     override fun onItemClick(i: Int) {
 
+    }
+
+    override fun onDeleteClick(i: Int) {
+        mdatabase.deleteData(arr.get(i))
+        arr.removeAt(i)
+        adapter.notifyDataSetChanged()
     }
 }

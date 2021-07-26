@@ -24,4 +24,10 @@ public class StudentViewModel {
         return myDataBase.myDAO().getAllData();
     }
 
+    public void deleteData(Student student){
+        myDataBase.myDAO().deleteUser(student);
+    }
+
+
+
 }
