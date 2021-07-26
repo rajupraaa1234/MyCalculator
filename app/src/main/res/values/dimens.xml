@@ -14,4 +14,6 @@
     <dimen name="sp25">25sp</dimen>
     <dimen name="dp30">30dp</dimen>
     <dimen name="dp1">1dp</dimen>
+    <dimen name="dp50">50dp</dimen>
+    <dimen name="sp11">11sp</dimen>
 </resources>

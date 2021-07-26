@@ -2,6 +2,7 @@ package com.example.calculator
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -112,6 +113,18 @@ class DashBoard : AppCompatActivity(),OnClickListner{
                     }
                     true
                 }
+                R.id.logout->{
+                    var sharPref = getSharedPreferences("mtap", MODE_PRIVATE)
+                    var editor = sharPref.edit()
+                    editor.clear()
+                    editor.apply()
+
+                    var HomeIntent : Intent
+                    HomeIntent = Intent(this, MainActivity::class.java)
+                    HomeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(HomeIntent)
+                    true
+                }
                 else -> false
             }
 
@@ -152,7 +165,7 @@ class DashBoard : AppCompatActivity(),OnClickListner{
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
+        } else { 
             openDialog()
         }
     }
@@ -384,14 +397,15 @@ class DashBoard : AppCompatActivity(),OnClickListner{
             builder.apply {
                 setPositiveButton("Yes",
                     DialogInterface.OnClickListener { dialog, id ->
-                        super.onBackPressed()
+                        finishAffinity()
+                        //super.onBackPressed()
                     })
                 setNegativeButton("No",
                     DialogInterface.OnClickListener { dialog, id ->
                         // User cancelled the dialog
                     })
             }
-            builder.setMessage("Do you want to cancel?")
+            builder.setMessage("Do you want to exit?")
             builder.create()
         }
 
@@ -402,13 +416,44 @@ class DashBoard : AppCompatActivity(),OnClickListner{
 
     }
 
+    private fun openDialogToDelete(i:Int){
+        val alertDialog: AlertDialog? = this?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setPositiveButton("Yes",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        mdatabase.deleteData(arr.get(i))
+                        arr.removeAt(i)
+                        adapter.notifyDataSetChanged()
+                        if(arr.size==0){
+                            recyclerView.visibility=View.GONE
+                            nodata.visibility = View.VISIBLE
+                        }
+                    })
+                setNegativeButton("No",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+                    })
+            }
+            builder.setMessage("Do you want to Delete?")
+            builder.create()
+        }
+
+        with(alertDialog) {
+
+            this?.show()
+        }
+
+    }
+
+
+
     override fun onItemClick(i: Int) {
 
     }
 
     override fun onDeleteClick(i: Int) {
-        mdatabase.deleteData(arr.get(i))
-        arr.removeAt(i)
-        adapter.notifyDataSetChanged()
+        openDialogToDelete(i)
     }
+
 }

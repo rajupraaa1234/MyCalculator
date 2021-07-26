@@ -17,6 +17,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        checkForLogin()
+    }
+
+    private fun checkForLogin() {
+        var sharPref = getSharedPreferences("mtap", MODE_PRIVATE)
+        if(sharPref!=null){
+             var temp = sharPref.getBoolean("login",false)
+            if(temp==true){
+                var HomeIntent : Intent
+                HomeIntent = Intent(this,DashBoard::class.java)
+                startActivity(HomeIntent)
+            }
+        }
     }
 
 
@@ -50,6 +63,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goHomeScreen() {
+        var sharPref = getSharedPreferences("mtap", MODE_PRIVATE)
+        var editor = sharPref.edit()
+        editor.putBoolean("login",true)
+        editor.apply()
+
          var HomeIntent : Intent
          HomeIntent = Intent(this,DashBoard::class.java)
          startActivity(HomeIntent)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content">
@@ -7,9 +8,14 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_weight="0.9"
+     android:gravity="center"
+     android:layout_height="wrap_content" >
     <TextView
         android:id="@+id/txt"
-        android:layout_weight="0.9"
         android:layout_width="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
@@ -18,15 +24,25 @@
         android:textSize="30sp"
         android:layout_height="wrap_content"/>
 
+ </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_weight="0.1"
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:layout_height="wrap_content">
     <Button
         android:id="@+id/delbtn"
-        android:layout_weight="0.1"
         android:text="Delete"
+        android:textSize="@dimen/sp11"
         android:layout_margin="@dimen/dp10"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp50"
         android:layout_gravity="center"
-        android:gravity="center" />
+        android:gravity="center"
+        tools:ignore="SmallSp" />
+  </LinearLayout>
 </LinearLayout>
 
     <View
