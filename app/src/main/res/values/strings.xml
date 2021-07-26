@@ -23,4 +23,9 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="history">History</string>
     <string name="logout">Logout</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="do_you_want_to_exit">Do you want to exit?</string>
+    <string name="do_you_want_to_delete">Do you want to Delete?</string>
 </resources>

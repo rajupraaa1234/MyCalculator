@@ -395,17 +395,17 @@ class DashBoard : AppCompatActivity(),OnClickListner{
         val alertDialog: AlertDialog? = this?.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setPositiveButton("Yes",
+                setPositiveButton(getString(R.string.yes),
                     DialogInterface.OnClickListener { dialog, id ->
                         finishAffinity()
                         //super.onBackPressed()
                     })
-                setNegativeButton("No",
+                setNegativeButton(getString(R.string.no),
                     DialogInterface.OnClickListener { dialog, id ->
                         // User cancelled the dialog
                     })
             }
-            builder.setMessage("Do you want to exit?")
+            builder.setMessage(getString(R.string.do_you_want_to_exit))
             builder.create()
         }
 
@@ -420,7 +420,7 @@ class DashBoard : AppCompatActivity(),OnClickListner{
         val alertDialog: AlertDialog? = this?.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setPositiveButton("Yes",
+                setPositiveButton(getString(R.string.yes),
                     DialogInterface.OnClickListener { dialog, id ->
                         mdatabase.deleteData(arr.get(i))
                         arr.removeAt(i)
@@ -430,12 +430,12 @@ class DashBoard : AppCompatActivity(),OnClickListner{
                             nodata.visibility = View.VISIBLE
                         }
                     })
-                setNegativeButton("No",
+                setNegativeButton(getString(R.string.no),
                     DialogInterface.OnClickListener { dialog, id ->
                         // User cancelled the dialog
                     })
             }
-            builder.setMessage("Do you want to Delete?")
+            builder.setMessage(getString(R.string.do_you_want_to_delete))
             builder.create()
         }
 

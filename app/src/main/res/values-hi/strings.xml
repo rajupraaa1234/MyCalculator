@@ -10,4 +10,17 @@
     <string name="please_enter_pass">कृपया पासवर्ड दर्ज करें</string>
     <string name="please_enter_correct_usernam">कृपया सही उपयोगकर्ता नाम दर्ज करें</string>
     <string name="please_enter_correct_pass">कृपया सही पासवर्ड दर्ज करें</string>
+
+    <string name="title_activity_dash_borad">डैशबोर्ड</string>
+
+    <string name="menu_home">होम</string>
+    <string name="menu_gallery">गेलरी</string>
+    <string name="history">हिस्तरी</string>
+    <string name="logout">लॉग आउट</string>
+    <string name="delete">हटाना</string>
+
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+    <string name="do_you_want_to_exit">क्या आपको बाहर निकलना है?</string>
+    <string name="do_you_want_to_delete">क्या आप हटाना चाहते हैं?</string>
 </resources>
