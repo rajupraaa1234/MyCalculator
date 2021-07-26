@@ -15,6 +15,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Visibility
+import com.example.calculator.ViewModel.StudentViewModel
+import com.example.calculator.model.Student
 import com.example.myloginapp.interfacePackage.OnClickListner
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -50,6 +52,7 @@ class DashBoard : AppCompatActivity(),OnClickListner{
     lateinit var send : Button
     lateinit var msg : EditText
     lateinit var nodata : TextView
+    lateinit var mdatabase : StudentViewModel
 
 
     var arr :ArrayList<String> = ArrayList<String>();
@@ -60,6 +63,7 @@ class DashBoard : AppCompatActivity(),OnClickListner{
 
 
         //init
+        mdatabase = StudentViewModel(this)
         info = findViewById(R.id.res)
         result = findViewById(R.id.result)
         toolbar = findViewById(R.id.toolbar) as Toolbar
@@ -98,10 +102,11 @@ class DashBoard : AppCompatActivity(),OnClickListner{
                     calLin.visibility = View.GONE
                     hisLin.visibility = View.VISIBLE
                     tabTitle.setText("Calculator History")
-                    if(arr.size==0){
+                    if(checkForData()==true){
                         recyclerView.visibility=View.GONE
                         nodata.visibility = View.VISIBLE
                     }else{
+                        fetchAllData()
                         recyclerView.visibility=View.VISIBLE
                         nodata.visibility = View.GONE
                     }
@@ -114,6 +119,23 @@ class DashBoard : AppCompatActivity(),OnClickListner{
 
     }
 
+    private fun checkForData(): Boolean {
+        var arrayList = ArrayList<Student>()
+        arrayList = mdatabase.allData as ArrayList<Student>
+        if(arrayList.size==0){
+            return true
+        }
+        return false
+    }
+
+    private fun fetchAllData() {
+        arr.clear()
+        var arrayList = ArrayList<Student>()
+        arrayList = mdatabase.allData as ArrayList<Student>
+        for(i in arrayList){
+            arr.add(i.Uname)
+        }
+    }
 
 
     fun NavigationClickHandler(){
@@ -125,9 +147,7 @@ class DashBoard : AppCompatActivity(),OnClickListner{
     }
 
 
-    fun setRecyclerData(){
 
-    }
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -172,10 +192,19 @@ class DashBoard : AppCompatActivity(),OnClickListner{
         }
         compute()
         ACTION = EQU
-        arr.add(result.text.toString() + val2.toString() + "=" + val1.toString())
-        adapter.notifyDataSetChanged()
+        addDataToRD(result.text.toString() + val2.toString() + "=" + val1.toString())
+        //arr.add(result.text.toString() + val2.toString() + "=" + val1.toString())
+        //adapter.notifyDataSetChanged()
         result.text = result.text.toString() + val2.toString() + "=" + val1.toString()
         info.text = val1.toString()
+    }
+
+    private fun addDataToRD(s: String) {
+        var obj : Student = Student()
+        obj.Uname= s
+        mdatabase.insertStudentData(obj)
+        arr.add(result.text.toString() + val2.toString() + "=" + val1.toString())
+        adapter.notifyDataSetChanged()
     }
 
     private fun pressPoint() {
